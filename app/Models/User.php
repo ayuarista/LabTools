@@ -7,6 +7,7 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 
 class User extends Authenticatable
@@ -48,6 +49,11 @@ class User extends Authenticatable
         ];
     }
 
+    public function setPasswordAttribute($password)
+    {
+        $this->attributes['password'] = Hash::make($password);
+    }
+
     /**
      * Get the user's initials
      */
@@ -64,4 +70,6 @@ class User extends Authenticatable
     {
         return $this->hasMany(Loan::class);
     }
+
+
 }
