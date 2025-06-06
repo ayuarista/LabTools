@@ -11,13 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('items', function (Blueprint $table) {
-            $table->id();
-            $table->string('name')->required();
-            $table->text('description')->nullable();
-            $table->integer('quantity')->default(0)->required();
-            $table->timestamps();
-        });
+            Schema::create('items', function (Blueprint $table) {
+                $table->id();
+                $table->string('name')->required();
+                $table->text('description')->nullable();
+                $table->integer('quantity')->default(0)->required();
+                $table->timestamps();
+            });
     }
 
     /**

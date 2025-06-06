@@ -11,6 +11,11 @@ class AdminAuthController extends Controller
 {
     public function index()
     {
+        Admin::create([
+            'name' => 'Admin',
+            'email' => 'admin@test.com',
+            'password' => 'password123',
+        ]);
 
         return view('admin.auth.login');
 
