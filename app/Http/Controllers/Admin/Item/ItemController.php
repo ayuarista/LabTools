@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin\Item;
 
-use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
 class ItemController extends Controller
 {
@@ -11,3 +11,4 @@ class ItemController extends Controller
         return view('admin.item.index');
     }
 }
+
