@@ -10,7 +10,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::post('/login', [AdminAuthController::class, 'login']);
 
     Route::middleware('auth:admin')->group(function () {
-        Route::get('/dashboard', [AdminController::class, 'index'])->name('dashboard');
+        Route::get('/dashboa    rd', [AdminController::class, 'index'])->name('dashboard');
         Route::post('/logout', [AdminAuthController::class, 'logout'])->name('logout');
         Route::get('/settings', [AdminController::class, 'settings'])->name('settings');
     });
