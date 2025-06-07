@@ -14,5 +14,6 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::post('/logout', [AdminAuthController::class, 'logout'])->name('logout');
         Route::get('/settings', [AdminController::class, 'settings'])->name('settings');
     });
-    Route::get('/item/index', [ItemController::class, 'index'])->name('item.index');
+
+    Route::get('/item', [ItemController::class, 'index'])->name('item.index');
 });
