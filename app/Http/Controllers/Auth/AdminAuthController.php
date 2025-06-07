@@ -12,10 +12,10 @@ class AdminAuthController extends Controller
     public function index()
     {
         return view('admin.auth.login');
-
     }
 
-    public function login(Request $request) {
+    public function login(Request $request)
+    {
 
         $credentials = $request->validate([
             'email' => 'required|email',
