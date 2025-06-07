@@ -11,8 +11,7 @@ class Item extends Model
     protected $fillable = [
         'name',
         'description',
-        'stock',
-        'category_id',
+        'quantity',
     ];
 
     public function image(): MorphOne
@@ -22,7 +21,7 @@ class Item extends Model
 
     public function loan()
     {
-        return $this->belongsTo(LoanItem::class);
+        return $this->hasMany(LoanItem::class);
     }
 
     public function return(): HasMany
