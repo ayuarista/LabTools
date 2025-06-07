@@ -13,7 +13,6 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('/dashboard', [AdminController::class, 'index'])->name('dashboard');
         Route::post('/logout', [AdminAuthController::class, 'logout'])->name('logout');
         Route::get('/settings', [AdminController::class, 'settings'])->name('settings');
+        Route::resource('item', ItemController::class);
     });
-
-    Route::get('/item', [ItemController::class, 'index'])->name('item.index');
 });
