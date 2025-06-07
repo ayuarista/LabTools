@@ -1,7 +1,7 @@
 <x-layouts.app :title="__('Loans List')">
     <div class="flex items-center justify-between mb-4">
         <flux:heading size="xl">Loans Item</flux:heading>
-        <div>
+        <div class="flex gap-4 items-center">
             <form method="GET">
                 <input
                     type="text"
@@ -11,7 +11,7 @@
                     class="border rounded px-3 py-1"
                 />
             </form>
-            <a href="{{route('loans.create')}}">Create Loan </a>
+            <a href="{{route('loans.create')}}" class="px-6 py-2 bg-neutral-800 rounded-lg text-white">Create Loan </a>
         </div>
     </div>
 
