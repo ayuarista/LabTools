@@ -11,7 +11,8 @@ class Loan extends Model
     [
         'user_id',
         'loan_date',
-        'return_date',
+        'start_at',
+        'return_at',
         'status',
     ];
 
