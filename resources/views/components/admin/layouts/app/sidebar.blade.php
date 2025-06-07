@@ -17,8 +17,17 @@
 
         <flux:navlist variant="outline">
             <flux:navlist.group :heading="__('Platform')" class="grid">
-                <flux:navlist.item icon="home" :href="'/admin/dashboard'" :current="request()->is('admin/dashboard')"
+                <flux:navlist.item icon="home" :href="'/admin/dashboard'" :current="request()-> is('admin/dashboard')"
                     wire:navigate>{{ __('Dashboard') }}
+                </flux:navlist.item>
+            </flux:navlist.group>
+            <flux:navlist.group :heading="__('Management')" class="grid">
+                <flux:navlist.item icon="rectangle-stack" :href="route('admin.item.index')"
+                    :current="request()->routeIs('item.*')" wire:navigate>
+                    {{ __('Items') }}
+                </flux:navlist.item>
+                <flux:navlist.item icon="clipboard-document-check" :href="'/admin/loans'"
+                    :current="request()->is('admin/loans*')" wire:navigate>{{ __('Loans') }}
                 </flux:navlist.item>
             </flux:navlist.group>
         </flux:navlist>
