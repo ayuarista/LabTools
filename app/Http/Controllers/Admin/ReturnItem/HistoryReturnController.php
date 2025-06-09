@@ -11,7 +11,7 @@ class HistoryReturnController extends Controller
     public function index()
     {
         $returnedLoans = Loan::with(['user', 'loanItems.item', 'returnItems'])
-        ->where('status', 'returned')
+        ->whereIn('status', ['returned', 'late'])
         ->whereHas('returnItems')
         ->latest()
         ->get();
