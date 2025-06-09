@@ -10,8 +10,11 @@ use App\Http\Controllers\Admin\ReturnItem\ReturnItemController;
 use App\Http\Controllers\Admin\ReturnItem\HistoryReturnController;
 
 Route::prefix('admin')->name('admin.')->group(function () {
-    Route::get('/login', [AdminAuthController::class, 'index'])->name('login');
-    Route::post('/login', [AdminAuthController::class, 'login']);
+
+    Route::middleware(['guest:admin'])->group(function () {
+        Route::get('/login', [AdminAuthController::class, 'index'])->name('login');
+        Route::post('/login', [AdminAuthController::class, 'login']);
+    });
 
     Route::middleware('auth:admin')->group(function () {
         Route::get('/dashboard', [AdminController::class, 'index'])->name('dashboard');
