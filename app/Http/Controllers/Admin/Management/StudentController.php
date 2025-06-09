@@ -17,7 +17,7 @@ class StudentController extends Controller
             $query->where('name', 'like', "%{$search}%");
         }
 
-        $students = $query->latest()->paginate(10);
+        $students = User::withCount('loans')->latest()->paginate(10); 
 
         return view('admin.student.index', compact('students', 'search'));
     }
