@@ -18,13 +18,7 @@ class ReturnItemController extends Controller
         ->latest()
         ->get();
 
-    $returnedLoans = Loan::with(['user', 'loanItems.item', 'returnItems'])
-        ->where('status', 'returned')
-        ->whereHas('returnItems')
-        ->latest()
-        ->get();
-
-    return view('admin.return_item.index', compact('waitingLoans', 'returnedLoans'));
+    return view('admin.return_item.index', compact('waitingLoans'));
 }
 
 

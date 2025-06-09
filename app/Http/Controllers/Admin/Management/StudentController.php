@@ -29,7 +29,7 @@ class StudentController extends Controller
 
     public function edit(User $student)
     {
-        return view('admin.students.edit', compact('student'));
+        return view('admin.student.edit', compact('student'));
     }
 
     public function update(Request $request, User $student)
@@ -50,13 +50,13 @@ class StudentController extends Controller
         $student->save();
 
         flash()->addSuccess('Data siswa berhasil diperbarui.');
-        return redirect()->route('students.index');
+        return redirect()->route('admin.students.index');
     }
 
     public function destroy(User $student)
     {
         $student->delete();
-        flash()->addSuccess('Siswa berhasil dihapus.');
-        return redirect()->route('students.index');
+        flash()->addSuccess('Data siswa berhasil dihapus!');
+        return redirect()->route('admin.students.index');
     }
 }

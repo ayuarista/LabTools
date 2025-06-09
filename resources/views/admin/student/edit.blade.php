@@ -1,32 +1,34 @@
 <x-admin.layouts.app :title="'Edit Siswa'">
-    <div class="max-w-xl mx-auto p-6 space-y-6">
+    <section class="mx-auto space-y-8 p-6">
         <div class="flex items-center justify-between">
-            <h1 class="text-xl font-bold text-zinc-800 dark:text-white">Edit Siswa</h1>
-            <a href="{{ route('admin.students.index') }}" class="text-sm text-blue-600 hover:underline">← Kembali</a>
+            <h1 class="text-2xl font-bold">Edit Data Siswa</h1>
         </div>
 
-        <form action="{{ route('admin.students.update', $student->id) }}" method="POST" class="space-y-5">
+        <form action="{{ route('admin.students.update', $student->id) }}" method="POST" class="space-y-6">
             @csrf
             @method('PUT')
 
-            <div>
-                <label for="name" class="block text-sm font-medium text-zinc-700 dark:text-zinc-300">Nama</label>
-                <input type="text" id="name" name="name" value="{{ old('name', $student->name) }}"
-                    class="mt-1 block w-full rounded-md border-zinc-300 dark:border-zinc-700 bg-white dark:bg-zinc-900 text-zinc-800 dark:text-white shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 text-sm">
+            <div class="space-y-2">
+                <label for="name" class="block text-sm font-medium text-zinc-800 dark:text-white">Nama</label>
+                <flux:input id="name" name="name" type="text" :value="old('name', $student->name)" placeholder="Nama siswa" />
             </div>
 
-            <div>
-                <label for="email" class="block text-sm font-medium text-zinc-700 dark:text-zinc-300">Email</label>
-                <input type="email" id="email" name="email" value="{{ old('email', $student->email) }}"
-                    class="mt-1 block w-full rounded-md border-zinc-300 dark:border-zinc-700 bg-white dark:bg-zinc-900 text-zinc-800 dark:text-white shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 text-sm">
+            <div class="space-y-2">
+                <label for="email" class="block text-sm font-medium text-zinc-800 dark:text-white">Email</label>
+                <flux:input id="email" name="email" type="email" :value="old('email', $student->email)" placeholder="Email siswa" />
             </div>
 
-            <div class="flex justify-end">
-                <button type="submit"
-                    class="bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium px-4 py-2 rounded-md">
-                    Simpan Perubahan
-                </button>
+            <div class="space-y-2">
+                <label for="password" class="block text-sm font-medium text-zinc-800 dark:text-white">Password Baru</label>
+                <flux:input id="password" name="password" type="password" placeholder="Biarkan kosong jika tidak diganti" />
+            </div>
+
+            <div class="flex items-center gap-3 justify-end">
+                <a href="{{ route('admin.students.index') }}" class="px-5 py-2 rounded-md border border-gray-300 text-sm hover:cursor-pointer hover:bg-zinc-800 text-black hover:text-white transition-all duration-200">
+                    Kembali
+                </a>
+                <flux:button type="submit" variant="primary" class="hover:cursor-pointer">Simpan Perubahan</flux:button>
             </div>
         </form>
-    </div>
+    </section>
 </x-admin.layouts.app>
