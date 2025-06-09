@@ -11,16 +11,15 @@ use Illuminate\Http\Request;
 class ReturnItemController extends Controller
 {
     public function index()
-{
-    $waitingLoans = Loan::with(['user', 'loanItems.item'])
-        ->where('status', 'request return')
-        ->whereDoesntHave('returnItems')
-        ->latest()
-        ->get();
+    {
+        $waitingLoans = Loan::with(['user', 'loanItems.item'])
+            ->where('status', 'request return')
+            ->whereDoesntHave('returnItems')
+            ->latest()
+            ->get();
 
-    return view('admin.return_item.index', compact('waitingLoans'));
-}
-
+        return view('admin.return_item.index', compact('waitingLoans'));
+    }
 
     public function create($loanId)
     {
@@ -31,6 +30,10 @@ class ReturnItemController extends Controller
     public function store(Request $request, $loanId)
     {
         $loan = Loan::with('loanItems')->findOrFail($loanId);
+        $returnDate = \Carbon\Carbon::parse($request->return_date); // dari form input
+        $expectedReturnDate = \Carbon\Carbon::parse($loan->loan_date); // batas waktu pengembalian
+
+        $isLate = $returnDate->gt($expectedReturnDate); // cek keterlambatan
 
         foreach ($request->items as $itemId => $data) {
             $loanItem = $loan->loanItems->firstWhere('item_id', $itemId);
@@ -52,7 +55,11 @@ class ReturnItemController extends Controller
             }
         }
 
-        $loan->update(['status' => 'returned']);
+        // Jika telat, ubah status jadi "late", kalau tidak, "returned"
+        $loan->update([
+            'status' => $isLate ? 'late' : 'returned',
+        ]);
+
         flash()->success('Pengembalian berhasil dilakukan!');
         return redirect()->route('admin.return-item.index');
     }
