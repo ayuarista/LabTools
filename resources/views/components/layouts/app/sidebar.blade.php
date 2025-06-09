@@ -17,9 +17,9 @@
                 </flux:navlist.group>
                 <flux:navlist.group :heading="__('Management')" class="grid">
                     <flux:navlist.item icon="rectangle-stack" :href="route('items.index')" :current="request()->is('items*')"
-                                       wire:navigate>{{ __('Items') }}</flux:navlist.item>
+                                       wire:navigate>{{ __('List Barang') }}</flux:navlist.item>
                     <flux:navlist.item icon="clipboard-document-check" :href="route('loans.index')" :current="request()->is('admin/loans*')"
-                                       wire:navigate>{{ __('Loans') }}
+                                       wire:navigate>{{ __('Peminjaman') }}
                     </flux:navlist.item>
                 </flux:navlist.group>
             </flux:navlist>

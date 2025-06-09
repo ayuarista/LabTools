@@ -24,10 +24,13 @@
             <flux:navlist.group :heading="__('Management')" class="grid">
                 <flux:navlist.item icon="rectangle-stack" :href="route('admin.item.index')"
                     :current="request()->routeIs('item.*')" wire:navigate>
-                    {{ __('Items') }}
+                    {{ __('List Barang') }}
                 </flux:navlist.item>
                 <flux:navlist.item icon="clipboard-document-check" :href="'/admin/loans'"
-                    :current="request()->is('admin/loans*')" wire:navigate>{{ __('Loans') }}
+                    :current="request()->is('admin/loans*')" wire:navigate>{{ __('Peminjaman') }}
+                </flux:navlist.item>
+                <flux:navlist.item icon="arrow-uturn-left" :href="route('admin.return-item.index')"
+                    :current="request()->routeIs('return-items*')" wire:navigate>{{ __('Pengembalian') }}
                 </flux:navlist.item>
             </flux:navlist.group>
         </flux:navlist>
@@ -97,11 +100,6 @@
                 </flux:menu.radio.group>
 
                 <flux:menu.separator />
-
-                <flux:menu.radio.group>
-                    <flux:menu.item :href="route('admin.settings')" icon="cog" wire:navigate>{{ __('Settings') }}
-                    </flux:menu.item>
-                </flux:menu.radio.group>
 
                 <flux:menu.separator />
 

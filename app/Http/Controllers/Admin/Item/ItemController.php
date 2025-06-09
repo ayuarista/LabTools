@@ -100,7 +100,7 @@ class ItemController extends Controller
 
         flash()->success('Item berhasil diperbarui!');
 
-        return redirect()->route('admin.item.edit', $item->id);
+        return redirect()->route('admin.item.index', $item->id);
     }
 
     public function destroy(Item $item)

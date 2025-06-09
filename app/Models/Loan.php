@@ -26,7 +26,7 @@ class Loan extends Model
         return $this->hasMany(LoanItem::class);
     }
 
-    public function return(): HasMany
+    public function returnItems(): HasMany
     {
         return $this->hasMany(ReturnItem::class);
     }
