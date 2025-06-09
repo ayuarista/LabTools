@@ -25,11 +25,11 @@ new #[Layout('components.layouts.auth')] class extends Component {
             'password' => ['required', 'string', 'confirmed', Rules\Password::defaults()],
         ]);
 
-        event(new Registered(($user = User::create($validated))));
+        $user = User::query()->create($validated);
 
-        Auth::login($user);
+        session(['user_id_pending_profile' => $user->id]);
 
-        $this->redirectIntended(route('dashboard'));
+        $this->redirectIntended(route('profile.create'));
     }
 }; ?>
 
