@@ -35,7 +35,7 @@
                             </td>
                             <td class="p-3 text-sm space-x-2">
                                 @if($loan->status === 'pending')
-                                    <flux:button size="sm" variant="success" wire:click="approve({{ $loan->id }})">
+                                    <flux:button size="sm" variant="primary" wire:click="approve({{ $loan->id }})">
                                         Approve
                                     </flux:button>
                                 @else

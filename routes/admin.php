@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\Loan\LoanController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\Auth\AdminAuthController;
@@ -14,5 +15,6 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::post('/logout', [AdminAuthController::class, 'logout'])->name('logout');
         Route::get('/settings', [AdminController::class, 'settings'])->name('settings');
         Route::resource('item', ItemController::class);
+        Route::resource('loans', LoanController::class);
     });
 });
