@@ -3,6 +3,7 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -71,5 +72,9 @@ class User extends Authenticatable
         return $this->hasMany(Loan::class);
     }
 
+    public function profile(): HasOne
+    {
+        return $this->hasOne(StudentProfile::class);
+    }
 
 }

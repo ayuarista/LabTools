@@ -1,14 +1,20 @@
 <?php
 
+use App\Models\File;
+use App\Models\StudentProfile;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rule;
 use Livewire\Volt\Component;
+use Livewire\WithFileUploads;
 
 new class extends Component {
-    public string $name = '';
-    public string $email = '';
+
+    use WithFileUploads;
+
+    public string $name, $email, $nis, $kelas, $jurusan;
 
     /**
      * Mount the component.
@@ -17,37 +23,33 @@ new class extends Component {
     {
         $this->name = Auth::user()->name;
         $this->email = Auth::user()->email;
+        $this->nis = Auth::user()->profile->nis;
+        $this->kelas = Auth::user()->profile->kelas;
+        $this->jurusan = Auth::user()->profile->jurusan;
     }
 
     /**
      * Update the profile information for the currently authenticated user.
      */
-    public function updateProfileInformation(): void
+    public function save()
     {
-        $user = Auth::user();
-
         $validated = $this->validate([
-            'name' => ['required', 'string', 'max:255'],
-
-            'email' => [
-                'required',
-                'string',
-                'lowercase',
-                'email',
-                'max:255',
-                Rule::unique(User::class)->ignore($user->id)
-            ],
+            'name' => 'required|string|max:255',
+            'kelas' => 'required|string|max:50',
+            'jurusan' => 'required|string|max:100',
         ]);
 
-        $user->fill($validated);
 
-        if ($user->isDirty('email')) {
-            $user->email_verified_at = null;
-        }
+        $student = User::query()->where('id', Auth::id())->first();
 
-        $user->save();
+        $student->profile()->update([
+            'kelas' => $validated['kelas'],
+            'jurusan' => $validated['jurusan'],
+        ]);
 
-        $this->dispatch('profile-updated', name: $user->name);
+        $student->update(['name' => $validated['name']]);
+        session()->flash('status', 'Profil siswa berhasil disimpan.');
+        $this->reset();
     }
 
     /**
@@ -69,46 +71,23 @@ new class extends Component {
     }
 }; ?>
 
-<section class="w-full">
-    @include('partials.settings-heading')
+<section class="max-w-2xl mx-auto">
+    <h2 class="text-xl font-bold mb-4">Profil</h2>
 
-    <x-settings.layout :heading="__('Profile')" :subheading="__('Update your name and email address')">
-        <form wire:submit="updateProfileInformation" class="my-6 w-full space-y-6">
-            <flux:input wire:model="name" :label="__('Name')" type="text" required autofocus autocomplete="name" />
+    <form wire:submit="save" class="space-y-6" enctype="multipart/form-data">
+        <flux:input label="Nama" wire:model="name" required/>
 
-            <div>
-                <flux:input wire:model="email" :label="__('Email')" type="email" required autocomplete="email" />
+        <flux:input label="NIS" wire:model="nis" disabled/>
 
-                @if (auth()->user() instanceof \Illuminate\Contracts\Auth\MustVerifyEmail &&! auth()->user()->hasVerifiedEmail())
-                    <div>
-                        <flux:text class="mt-4">
-                            {{ __('Your email address is unverified.') }}
+        <flux:input label="Kelas" wire:model="kelas" required/>
 
-                            <flux:link class="text-sm cursor-pointer" wire:click.prevent="resendVerificationNotification">
-                                {{ __('Click here to re-send the verification email.') }}
-                            </flux:link>
-                        </flux:text>
+        <flux:input label="Jurusan" wire:model="jurusan" required/>
 
-                        @if (session('status') === 'verification-link-sent')
-                            <flux:text class="mt-2 font-medium !dark:text-green-400 !text-green-600">
-                                {{ __('A new verification link has been sent to your email address.') }}
-                            </flux:text>
-                        @endif
-                    </div>
-                @endif
-            </div>
+        <flux:button type="submit" variant="primary" accept="image/*">Simpan</flux:button>
 
-            <div class="flex items-center gap-4">
-                <div class="flex items-center justify-end">
-                    <flux:button variant="primary" type="submit" class="w-full">{{ __('Save') }}</flux:button>
-                </div>
-
-                <x-action-message class="me-3" on="profile-updated">
-                    {{ __('Saved.') }}
-                </x-action-message>
-            </div>
-        </form>
-
-        <livewire:settings.delete-user-form />
-    </x-settings.layout>
+        @if (session('status'))
+            <div class="text-green-600 mt-2">{{ session('status') }}</div>
+        @endif
+    </form>
 </section>
+
