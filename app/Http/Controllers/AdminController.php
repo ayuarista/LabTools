@@ -35,14 +35,14 @@ class AdminController extends Controller
                     'total_loans' => $user->loans_count,
                 ];
             });
-    
+
         $topItems = Item::select('name', DB::raw('SUM(loan_items.quantity) as total_borrowed'))
             ->join('loan_items', 'items.id', '=', 'loan_items.item_id')
             ->groupBy('items.id', 'items.name')
             ->orderByDesc('total_borrowed')
             ->take(5)
             ->get();
-    
+
         // Data real 7 hari terakhir
         $loanChartLabels = [];
         $loanChartData = [];

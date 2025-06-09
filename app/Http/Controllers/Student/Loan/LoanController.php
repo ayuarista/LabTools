@@ -24,7 +24,7 @@ class LoanController extends Controller
                 });
             })
             ->orderBy('loan_date', 'desc')
-            ->get();
+            ->paginate(5);
 
         return view('student.loan.index', compact('loans'));
     }

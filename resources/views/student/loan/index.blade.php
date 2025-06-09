@@ -72,7 +72,8 @@
                                         <form action="{{ route('loans.return.request', $loan->id) }}" method="POST"
                                             class="inline">
                                             @csrf
-                                            <flux:button variant="primary" size="sm">Kembalikan</flux:button>
+                                            <flux:button variant="primary" size="sm" type='submit'
+                                                class="hover:cursor-pointer">Kembalikan</flux:button>
                                         </form>
                                     @endif
 
@@ -98,6 +99,11 @@
                     </tbody>
                 </table>
             </div>
+
+            <div class="mt-4">
+                    {{ $loans->links() }}
+            </div>
+
         @else
             <div class="text-center text-zinc-500 italic mt-20">
                 Belum ada riwayat peminjaman.

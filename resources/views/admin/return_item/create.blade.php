@@ -26,13 +26,6 @@
                             get penaltyRequired() { return this.showPenalty }
                          }">
 
-                        {{-- Late Warning --}}
-                        @if ($loanItem->is_late ?? false)
-                            <div class="bg-yellow-100 border-l-4 border-yellow-400 text-yellow-800 text-sm p-3 rounded">
-                                ⚠️ Pengembalian barang ini terlambat dari waktu yang dijadwalkan.
-                            </div>
-                        @endif
-
                         {{-- Nama Barang --}}
                         <h3 class="text-lg font-semibold text-zinc-800">
                             {{ $loanItem->item->name }}

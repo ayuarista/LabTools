@@ -19,7 +19,7 @@ class ReturnItemController extends Controller
             ->get();
 
         $returnedLoans = Loan::with(['user', 'loanItems.item', 'returnItems'])
-            ->where('status', 'returned')
+            ->whereIn('status', ['returned', 'late'])
             ->whereHas('returnItems')
             ->latest()
             ->get();
@@ -31,24 +31,17 @@ class ReturnItemController extends Controller
     public function create($loanId)
     {
         $loan = Loan::with('loanItems.item')->findOrFail($loanId);
-        $loanDate = \Carbon\Carbon::parse($loan->loan_date);
-        $loanTime = \Carbon\Carbon::parse($loan->return_at);
-        $now = now();
-
-        // Tambahkan flag `is_late` ke tiap item
-        foreach ($loan->loanItems as $loanItem) {
-            $isLate = $now->toDateString() > $loanDate->toDateString()
-                || ($now->toDateString() === $loanDate->toDateString() && $now->format('H:i') > $loanTime->format('H:i'));
-
-            $loanItem->is_late = $isLate; // tambahkan properti manual ke object
-        }
-
         return view('admin.return_item.create', compact('loan'));
     }
+
 
     public function store(Request $request, $loanId)
     {
         $loan = Loan::with('loanItems')->findOrFail($loanId);
+        $returnDate = \Carbon\Carbon::parse($request->return_date); // dari form input
+        $expectedReturnDate = \Carbon\Carbon::parse($loan->loan_date); // batas waktu pengembalian
+
+        $isLate = $returnDate->gt($expectedReturnDate); // cek keterlambatan
 
         foreach ($request->items as $itemId => $data) {
             $loanItem = $loan->loanItems->firstWhere('item_id', $itemId);
@@ -69,6 +62,11 @@ class ReturnItemController extends Controller
                 $item->save();
             }
         }
+
+        // Jika telat, ubah status jadi "late", kalau tidak, "returned"
+        $loan->update([
+            'status' => $isLate ? 'late' : 'returned',
+        ]);
 
         flash()->success('Pengembalian berhasil dilakukan!');
         return redirect()->route('admin.return-item.index');
