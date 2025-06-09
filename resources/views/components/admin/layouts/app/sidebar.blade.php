@@ -32,6 +32,12 @@
                 <flux:navlist.item icon="arrow-uturn-left" :href="route('admin.return-item.index')"
                     :current="request()->routeIs('return-items*')" wire:navigate>{{ __('Pengembalian') }}
                 </flux:navlist.item>
+                <flux:navlist.item icon="calendar-date-range" :href="route('admin.history-item.index')"
+                    :current="request()->routeIs('history-items*')" wire:navigate>{{ __('Riwayat Pengembalian') }}
+                </flux:navlist.item>
+                <flux:navlist.item icon="users" :href="'/admin/students'"
+                    :current="request()->is('admin/students*')" wire:navigate>{{ __('Management Siswa') }}
+                </flux:navlist.item>
             </flux:navlist.group>
         </flux:navlist>
 
