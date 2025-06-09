@@ -56,7 +56,7 @@
             @empty
                 <tr class=" border">
                     <td colspan="5" class="text-center text-gray-500 dark:text-gray-400 p-4">
-                        No items found.
+                        Tidak ada data barang.
                     </td>
                 </tr>
             @endforelse

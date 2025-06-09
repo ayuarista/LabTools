@@ -5,6 +5,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\Auth\AdminAuthController;
 use App\Http\Controllers\Admin\Item\ItemController;
+use App\Http\Controllers\Admin\Management\StudentController;
+use App\Http\Controllers\Admin\ReturnItem\ReturnItemController;
 
 Route::prefix('admin')->name('admin.')->group(function () {
     Route::get('/login', [AdminAuthController::class, 'index'])->name('login');
@@ -16,5 +18,9 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('/settings', [AdminController::class, 'settings'])->name('settings');
         Route::resource('item', ItemController::class);
         Route::resource('loans', LoanController::class);
+        Route::resource('students', StudentController::class);
+        Route::get('/return-item', [ReturnItemController::class, 'index'])->name('return-item.index');
+        Route::get('/return-item/{loan}/create', [ReturnItemController::class, 'create'])->name('return-item.create');
+        Route::post('/return-item/{loan}', [ReturnItemController::class, 'store'])->name('return-item.store');
     });
 });

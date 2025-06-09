@@ -1,52 +1,107 @@
-<x-layouts.app :title="__('Loans List')">
-    <div class="flex items-center justify-between mb-4">
-        <flux:heading size="xl">Loans Item</flux:heading>
-        <div class="flex gap-4 items-center">
-            <form method="GET">
-                <input
-                    type="text"
-                    name="search"
-                    value="{{ request('search') }}"
-                    placeholder="Search by user name..."
-                    class="border rounded px-3 py-1"
-                />
-            </form>
-            <a href="{{route('loans.create')}}" class="px-6 py-2 bg-neutral-800 rounded-lg text-white">Create Loan </a>
+<x-layouts.app :title="'Peminjaman Saya'">
+    <div class="max-w-7xl mx-auto p-6 space-y-6">
+        <div class="flex items-center justify-between mb-4">
+            <h1 class="text-2xl font-bold text-zinc-800 dark:text-white">Peminjaman Saya</h1>
+            <a href="{{ route('loans.create') }}">
+                <flux:button variant="primary">+ Ajukan Peminjaman</flux:button>
+            </a>
         </div>
-    </div>
 
-    @foreach ($loans as $loan)
-        <div class="border rounded p-4 mb-6 shadow-sm">
-            <div class="mb-6 pb-6 border-b border-b-neutral-800 flex justify-between">
-                <div class="flex flex-col gap-4">
-                    <p><strong>Tanggal Pinjam:</strong> {{ $loan->loan_date }}</p>
-                    <p><strong>Waktu Pinjam:</strong> {{ $loan->start_at }} - {{ $loan->return_at }}</p>
-                </div>
-                <p class="font-medium capitalize px-5 py-2.5 text-neutral-500 bg-neutral-50 h-fit rounded-lg">{{ $loan->status }}</p>
+        <div class="flex items-center gap-3 bg-blue-100 text-blue-800 p-3 rounded-md text-sm leading-6">
+            <i class="fa-solid fa-circle-exclamation"></i>
+            <p>
+                Kamu tidak dapat mengajukan peminjaman apabila memiliki lebih dari <strong>2</strong> peminjaman dengan
+                status <strong>pending</strong>.
+            </p>
+        </div>
+
+        @if ($loans->count())
+            <div class="overflow-x-auto rounded-xl border border-zinc-200 dark:border-zinc-700">
+                <table class="min-w-full divide-y divide-zinc-200 dark:divide-zinc-700 text-sm">
+                    <thead class="bg-zinc-800 text-left text-zinc-100">
+                        <tr>
+                            <th class="px-4 py-3 font-semibold">No</th>
+                            <th class="px-4 py-3 font-semibold">Tanggal</th>
+                            <th class="px-4 py-3 font-semibold">Waktu</th>
+                            <th class="px-4 py-3 font-semibold">Barang</th>
+                            <th class="px-4 py-3 font-semibold">Status</th>
+                            <th class="px-4 py-3 font-semibold text-end"></th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-zinc-200 dark:divide-zinc-700">
+                        @foreach ($loans as $index => $loan)
+                            <tr class="bg-white dark:bg-zinc-900 text-zinc-800 dark:text-zinc-200">
+                                <td class="px-4 py-3">
+                                    {{ $index + 1 }}
+                                </td>
+                                <td class="px-4 py-3 whitespace-nowrap">
+                                    {{ \Carbon\Carbon::parse($loan->loan_date)->translatedFormat('l, j F Y') }}
+                                </td>
+                                <td class="px-4 py-3 whitespace-nowrap">
+                                    {{ \Carbon\Carbon::parse($loan->start_at)->format('H:i') }} -
+                                    {{ \Carbon\Carbon::parse($loan->return_at)->format('H:i') }}
+                                </td>
+                                <td class="px-4 py-3 space-y-1">
+                                    @foreach ($loan->loanItems as $item)
+                                        <div>
+                                            <span class="font-semibold">{{ $item->item->name }}</span> -
+                                            {{ $item->quantity }} pcs
+                                            <span
+                                                class="italic text-zinc-500">{{ $item->note ? '(' . $item->note . ')' : '' }}</span>
+                                        </div>
+                                    @endforeach
+                                </td>
+                                <td class="px-4 py-3">
+                                    @php
+                                        $statusColor = match ($loan->status) {
+                                            'approved' => 'bg-green-100 text-green-800',
+                                            'returned' => 'bg-yellow-100 text-yellow-700',
+                                            'rejected' => 'bg-red-100 text-red-800',
+                                            'canceled' => 'bg-red-100 text-red-800',
+                                            'request return' => 'bg-sky-100 text-sky-700',
+                                            default => 'bg-gray-200 text-gray-600',
+                                        };
+                                    @endphp
+                                    <span
+                                        class="inline-block px-3 py-1 rounded-full font-medium text-[13px] {{ $statusColor }}">
+                                        {{ ucfirst($loan->status) }}
+                                    </span>
+                                </td>
+                                <td class="px-4 py-3 text-end whitespace-nowrap space-x-2">
+                                    @if ($loan->status === 'approved')
+                                        <form action="{{ route('loans.return.request', $loan->id) }}" method="POST"
+                                            class="inline">
+                                            @csrf
+                                            <flux:button variant="primary" size="sm">Kembalikan</flux:button>
+                                        </form>
+                                    @endif
+
+                                    @if ($loan->status === 'pending')
+                                        <form action="{{ route('loans.edit', $loan->id) }}" method="POST"
+                                            class="inline">
+                                            @csrf
+                                            @method('PATCH')
+                                            <button type="submit"
+                                                class="bg-amber-100 text-amber-700 rounded-md px-3 py-1 text-sm">Edit</button>
+                                        </form>
+                                        <form action="{{ route('loans.cancel', $loan->id) }}" method="POST"
+                                            class="inline">
+                                            @csrf
+                                            @method('PATCH')
+                                            <button type="submit"
+                                                class="bg-red-100 text-red-700 rounded-md px-3 py-1 text-sm">Batalkan</button>
+                                        </form>
+                                    @endif
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
             </div>
-
-            <h3 class="font-semibold mt-4 mb-2">Daftar Barang:</h3>
-            @if ($loan->loanItems->count())
-                <div class="grid grid-cols-3 gap-4">
-                    @foreach ($loan->loanItems as $item)
-                        <div class="p-4 flex gap-4 border border-neutral-500">
-                            <img src="{{ $item->item->image->file_url }}" class="size-20" alt="">
-                            <div>
-                                <strong>{{ $item->item->name ?? 'Barang tidak ditemukan' }}</strong> -
-                                {{ $item->quantity }} Pcs
-                                @if ($item->note)
-                                    <br><span class="text-sm text-gray-500 italic">Catatan: {{ $item->note }}</span>
-                                @else
-                                    <br><span class="text-sm text-gray-500 italic">Catatan: -</span>
-
-                                @endif
-                            </div>
-                        </div>
-                    @endforeach
-                </div>
-            @else
-                <p class="text-gray-500 italic">Tidak ada barang yang dipinjam.</p>
-            @endif
-        </div>
-    @endforeach
+        @else
+            <div class="text-center text-zinc-500 italic mt-20">
+                Belum ada riwayat peminjaman.
+            </div>
+        @endif
+    </div>
 </x-layouts.app>
