@@ -19,7 +19,7 @@ class AdminController extends Controller
         $pendingReturns = Loan::where('status', 'request return')->count();
         $totalItems = Item::count();
         $recentLoans = Loan::with('user', 'loanItems')->latest()->take(5)->get();
-        $lateLoans = Loan::where('status', 'approved')
+        $lateLoans = Loan::where('status', 'late')
             ->whereDate('loan_date', '<', now()->toDateString())
             ->doesntHave('returnItems')
             ->with('user')

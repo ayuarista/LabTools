@@ -3,7 +3,7 @@
         <div class="flex items-center justify-between mb-4">
             <h1 class="text-2xl font-bold text-zinc-800 dark:text-white">Peminjaman Saya</h1>
             <a href="{{ route('loans.create') }}">
-                <flux:button variant="primary">+ Ajukan Peminjaman</flux:button>
+                <flux:button variant="primary" class="hover:cursor-pointer">+ Ajukan Peminjaman</flux:button>
             </a>
         </div>
 
@@ -16,7 +16,7 @@
         </div>
 
         @if ($loans->count())
-            <div class="overflow-x-auto rounded-xl border border-zinc-200 dark:border-zinc-700">
+            <div class="overflow-x-auto rounded-t-lg border border-zinc-200 dark:border-zinc-700">
                 <table class="min-w-full divide-y divide-zinc-200 dark:divide-zinc-700 text-sm">
                     <thead class="bg-zinc-800 text-left text-zinc-100">
                         <tr>
@@ -69,28 +69,30 @@
                                 </td>
                                 <td class="px-4 py-3 text-end whitespace-nowrap space-x-2">
                                     @if ($loan->status === 'approved')
-                                        <form action="{{ route('loans.return.request', $loan->id) }}" method="POST"
-                                            class="inline">
+                                        <form action="{{ route('loans.return.request', $loan->id) }}" method="POST" class="inline">
                                             @csrf
-                                            <flux:button variant="primary" size="sm" type='submit'
-                                                class="hover:cursor-pointer">Kembalikan</flux:button>
+                                            <flux:button variant="primary" size="sm" type="submit" class="hover:cursor-pointer">
+                                                Kembalikan
+                                            </flux:button>
                                         </form>
                                     @endif
 
                                     @if ($loan->status === 'pending')
-                                        <form action="{{ route('loans.edit', $loan->id) }}" method="POST"
-                                            class="inline">
+                                        <form action="{{ route('loans.edit', $loan->id) }}" method="POST" class="inline">
                                             @csrf
                                             @method('PATCH')
                                             <button type="submit"
-                                                class="bg-amber-100 text-amber-700 rounded-md px-3 py-1 text-sm">Edit</button>
+                                                class="bg-amber-100 text-amber-700 rounded-md px-3 py-1 text-sm font-medium">
+                                                Edit
+                                            </button>
                                         </form>
-                                        <form action="{{ route('loans.cancel', $loan->id) }}" method="POST"
-                                            class="inline">
+                                        <form action="{{ route('loans.cancel', $loan->id) }}" method="POST" class="inline">
                                             @csrf
                                             @method('PATCH')
                                             <button type="submit"
-                                                class="bg-red-100 text-red-700 rounded-md px-3 py-1 text-sm">Batalkan</button>
+                                                class="bg-red-100 text-red-700 rounded-md px-3 py-1 text-sm font-medium">
+                                                Batalkan
+                                            </button>
                                         </form>
                                     @endif
                                 </td>
@@ -101,9 +103,8 @@
             </div>
 
             <div class="mt-4">
-                    {{ $loans->links() }}
+                {{ $loans->links() }}
             </div>
-
         @else
             <div class="text-center text-zinc-500 italic mt-20">
                 Belum ada riwayat peminjaman.

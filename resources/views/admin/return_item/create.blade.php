@@ -5,7 +5,6 @@
         <form action="{{ route('admin.return-item.store', $loan->id) }}" method="POST" class="space-y-10">
             @csrf
 
-            {{-- Tanggal Pengembalian Global --}}
             <div class="border border-zinc-300 rounded-xl p-6 shadow-sm">
                 <flux:input
                     label="Tanggal Pengembalian"
@@ -16,7 +15,6 @@
                 />
             </div>
 
-            {{-- Form Per Item --}}
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                 @foreach ($loan->loanItems as $index => $loanItem)
                     <div class="border border-zinc-300 rounded-xl p-6 shadow-sm space-y-5"
@@ -27,12 +25,17 @@
                          }">
 
                         {{-- Nama Barang --}}
+                        @if ($loanItem->is_late ?? false)
+                            <div class="bg-yellow-100 border-l-4 border-yellow-400 text-yellow-800 text-sm p-3 rounded">
+                                ⚠️ Pengembalian barang ini terlambat dari waktu yang dijadwalkan.
+                            </div>
+                        @endif
+
                         <h3 class="text-lg font-semibold text-zinc-800">
                             {{ $loanItem->item->name }}
                             <span class="text-sm font-normal text-zinc-500">({{ $loanItem->quantity }} pcs)</span>
                         </h3>
 
-                        {{-- Kondisi --}}
                         <div>
                             <label class="block text-sm font-medium text-zinc-700 mb-1">Kondisi Barang</label>
                             <select
@@ -46,7 +49,6 @@
                             </select>
                         </div>
 
-                        {{-- Denda --}}
                         <div x-show="true" x-transition>
                             <label class="block text-sm font-medium text-zinc-700 mb-1">Denda (Rp)</label>
                             <input
@@ -61,7 +63,6 @@
                             />
                         </div>
 
-                        {{-- Catatan --}}
                         <flux:textarea
                             name="items[{{ $loanItem->item->id }}][note]"
                             label="Catatan (opsional)"
@@ -72,9 +73,8 @@
                 @endforeach
             </div>
 
-            {{-- Submit --}}
             <div class="text-end pt-4">
-                <flux:button type="submit" variant="primary">
+                <flux:button type="submit" variant="primary" class="hover:cursor-pointer">
                     Ajukan Pengembalian
                 </flux:button>
             </div>

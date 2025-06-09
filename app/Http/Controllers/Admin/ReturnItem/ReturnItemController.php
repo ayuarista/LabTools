@@ -27,21 +27,19 @@ class ReturnItemController extends Controller
         return view('admin.return_item.index', compact('waitingLoans', 'returnedLoans'));
     }
 
-
     public function create($loanId)
     {
         $loan = Loan::with('loanItems.item')->findOrFail($loanId);
         return view('admin.return_item.create', compact('loan'));
     }
 
-
     public function store(Request $request, $loanId)
     {
         $loan = Loan::with('loanItems')->findOrFail($loanId);
-        $returnDate = \Carbon\Carbon::parse($request->return_date); // dari form input
-        $expectedReturnDate = \Carbon\Carbon::parse($loan->loan_date); // batas waktu pengembalian
+        $returnDate = \Carbon\Carbon::parse($request->return_date);
+        $expectedReturnDate = \Carbon\Carbon::parse($loan->loan_date);
 
-        $isLate = $returnDate->gt($expectedReturnDate); // cek keterlambatan
+        $isLate = $returnDate->gt($expectedReturnDate);
 
         foreach ($request->items as $itemId => $data) {
             $loanItem = $loan->loanItems->firstWhere('item_id', $itemId);
@@ -63,7 +61,6 @@ class ReturnItemController extends Controller
             }
         }
 
-        // Jika telat, ubah status jadi "late", kalau tidak, "returned"
         $loan->update([
             'status' => $isLate ? 'late' : 'returned',
         ]);
