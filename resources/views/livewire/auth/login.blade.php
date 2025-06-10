@@ -44,7 +44,7 @@ new #[Layout('components.layouts.auth')] class extends Component {
         }
 
         if($user->profile()->exists()) {
-            Auth::guard('member')->login($user);
+            Auth::guard('web')->login($user);
 
             flash()->success('Login successfully!');
 
@@ -53,7 +53,7 @@ new #[Layout('components.layouts.auth')] class extends Component {
 
         flash()->warning('Please create your profile first!');
 
-        session(['member_id_pending_profile' => $user->id]);
+        session(['student_id_pending_profile' => $user->id]);
 
         $this->redirect(route('profile.create'));
     }
