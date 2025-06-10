@@ -37,9 +37,11 @@
                         class="text-red-500">*</span></label>
 
                 <div class="space-y-6">
-                    <div class="flex gap-2 text-amber-500 p-1.5 bg-amber-100 text-sm rounded-md text-medium">
-                        <i class="fa-solid fa-quote-left"></i>
-                        Kamu bisa memilih 1–2 jenis barang, dan setiap barang boleh dipinjam 1–2 pcs.
+                    <div class="flex items-start gap-3 bg-blue-100 text-blue-800 p-3 rounded-md text-sm leading-6">
+                        <i class="fa-solid fa-circle-exclamation mt-1"></i>
+                        <p>
+                            Kamu bisa memilih 1–2 jenis barang, dan setiap barang boleh dipinjam 1–2 pcs.
+                        </p>
                     </div>
                     @foreach ($items as $item)
                         <div class="flex items-start space-x-4 bg-zinc-50 border border-zinc-200 rounded-xl p-4">

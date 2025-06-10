@@ -22,7 +22,7 @@ Route::middleware(['auth:web'])->group(function () {
     Route::resource('loans', LoanController::class);
 
     Route::patch('/loans/{loan}/cancel', [LoanController::class, 'cancel'])->name('loans.cancel');
-    Route::patch('/loans/{loan}/edit', [LoanController::class, 'edit'])->name('loans.edit');
+    // Route::patch('/loans/{loan}/edit', [LoanController::class, 'edit'])->name('loans.edit');
     Route::post('/loans/{loan}/return-request', [LoanController::class, 'requestReturn'])->name('loans.return.request');
 
     Volt::route('settings/profile', 'settings.profile')->name('settings.profile');
