@@ -19,6 +19,7 @@ return new class extends Migration
             $table->foreignId('user_id')
                 ->after('nis')
                 ->constrained('users');
+            $table->dropColumn('name');
         });
     }
 
@@ -34,6 +35,7 @@ return new class extends Migration
         Schema::table('student_profiles', function (Blueprint $table) {
             $table->dropForeign('student_profiles_user_id_foreign');
             $table->dropColumn('user_id');
+            $table->string('name');
         });
     }
 };
