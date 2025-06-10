@@ -72,19 +72,19 @@
                                     @endif
 
                                     @if ($loan->status === 'pending')
-                                        <form action="{{ route('loans.edit', $loan->id) }}" method="POST" class="inline">
+                                        {{-- <form action="{{ route('loans.edit', $loan->id) }}" method="POST" class="inline">
                                             @csrf
                                             @method('PATCH')
                                             <button type="submit"
                                                 class="bg-amber-100 text-amber-700 rounded-md px-3 py-1 text-sm font-medium">
                                                 Edit
                                             </button>
-                                        </form>
+                                        </form> --}}
                                         <form action="{{ route('loans.cancel', $loan->id) }}" method="POST" class="inline">
                                             @csrf
                                             @method('PATCH')
                                             <button type="submit"
-                                                class="bg-red-100 text-red-700 rounded-md px-3 py-1 text-sm font-medium">
+                                                class="bg-red-100 text-red-700 rounded-md px-3 py-1 text-sm font-medium hover:cursor-pointer">
                                                 Batalkan
                                             </button>
                                         </form>
