@@ -12,7 +12,9 @@
                     <thead class="bg-zinc-800 text-zinc-100">
                         <tr>
                             <th class="px-4 py-3 text-left font-semibold whitespace-nowrap">No</th>
-                            <th class="px-4 py-3 text-left font-semibold whitespace-nowrap">Nama Siswa</th>
+                            <th class="px-4 py-3 text-left font-semibold whitespace-nowrap">Nama</th>
+                            <th class="px-4 py-3 text-left font-semibold whitespace-nowrap">NIS</th>
+                            <th class="px-4 py-3 text-left font-semibold whitespace-nowrap">Kelas</th>
                             <th class="px-4 py-3 text-left font-semibold whitespace-nowrap">Tanggal Pinjam</th>
                             <th class="px-4 py-3 text-left font-semibold whitespace-nowrap">Barang</th>
                             <th class="px-4 py-3 text-left font-semibold whitespace-nowrap">Kondisi</th>
@@ -26,6 +28,8 @@
                                 <tr>
                                     <td class="px-4 py-3 whitespace-nowrap">{{ $index + 1 }}</td>
                                     <td class="px-4 py-3 whitespace-nowrap">{{ $loan->user->name }}</td>
+                                    <td class="px-4 py-3 whitespace-nowrap">{{ $loan->user->profile->nis ?? '-' }}</td>
+                                    <td class="px-4 py-3 whitespace-nowrap">{{ $loan->user->profile->kelas ?? '-' }}</td>
                                     <td class="px-4 py-3 whitespace-nowrap">
                                         {{ \Carbon\Carbon::parse($loan->loan_date)->translatedFormat('l, j F Y') }}
                                     </td>

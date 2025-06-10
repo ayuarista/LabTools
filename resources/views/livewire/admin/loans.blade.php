@@ -1,10 +1,6 @@
 <section class="w-full">
     <div class="p-4 space-y-6">
 
-        {{-- <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-            <flux:input placeholder="Cari berdasarkan nama pengguna..." class="w-full sm:max-w-96" wire:model.live='search' />
-        </div> --}}
-
         <h2 class="text-2xl font-bold text-zinc-800 dark:text-white tracking-tight">
             Daftar Peminjaman
         </h2>
@@ -15,6 +11,9 @@
                     <tr>
                         <th class="p-3 text-left">No</th>
                         <th class="p-3 text-left">Nama</th>
+                        <th class="p-3 text-left">NIS</th>
+                        <th class="p-3 text-left">Kelas</th>
+                        <th class="p-3 text-left">Jurusan</th>
                         <th class="p-3 text-left">Barang</th>
                         <th class="p-3 text-left">Jam Pinjam</th>
                         <th class="p-3 text-left">Jam Mengembalikan</th>
@@ -26,7 +25,10 @@
                     @forelse($loans as $index => $loan)
                         <tr>
                             <td class="p-3">{{ $index + 1 }}</td>
-                            <td class="p-3">{{ $loan->user->name }}</td>
+                            <td class="p-3 font-semibold">{{ $loan->user->name }}</td>
+                            <td class="p-3">{{ $loan->user->profile?->nis ?? '-' }}</td>
+                            <td class="p-3">{{ $loan->user->profile?->kelas ?? '-' }}</td>
+                            <td class="p-3">{{ $loan->user->profile?->jurusan ?? '-' }}</td>
                             <td class="p-3">
                                 <ul class="space-y-1">
                                     @foreach ($loan->loanItems as $loanItem)
@@ -76,7 +78,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="7" class="p-4 text-center text-gray-500 dark:text-gray-400">
+                            <td colspan="10" class="p-4 text-center text-gray-500 dark:text-gray-400">
                                 Tidak ada data peminjaman.
                             </td>
                         </tr>
@@ -84,6 +86,5 @@
                 </tbody>
             </table>
         </div>
-        
     </div>
 </section>
