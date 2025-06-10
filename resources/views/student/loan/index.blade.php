@@ -67,13 +67,10 @@
                                     @if ($loan->status === 'approved')
                                         <form action="{{ route('loans.return.request', $loan->id) }}" method="POST" class="inline">
                                             @csrf
-<<<<<<< HEAD
                                             <flux:button variant="primary" size="sm" type="submit" class="hover:cursor-pointer">
                                                 Kembalikan
                                             </flux:button>
-=======
-                                            <flux:button variant="primary" size="sm" type="submit">Kembalikan</flux:button>
->>>>>>> 849fdb129e32cd7abf224ac2c7e71678ceb5156a
+                                            
                                         </form>
                                     @endif
 
