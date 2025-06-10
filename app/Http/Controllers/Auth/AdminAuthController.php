@@ -10,7 +10,9 @@ use Illuminate\Support\Facades\Auth;
 class AdminAuthController extends Controller
 {
     public function index()
+    
     {
+        
         return view('admin.auth.login');
     }
 
