@@ -17,6 +17,9 @@ Route::middleware('guest:web')->group(function () {
     Volt::route('reset-password/{token}', 'auth.reset-password')
         ->name('password.reset');
 
+    Volt::route('/profile/create', 'auth.make-profile')
+        ->name('profile.create');
+
 });
 
 Route::middleware('auth:web')->group(function () {
