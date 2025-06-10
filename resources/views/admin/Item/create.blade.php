@@ -28,13 +28,13 @@
                     class="mt-1 block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4
                         file:rounded-full file:border-0
                         file:text-sm file:font-semibold
-                        file:bg-blue-50 file:text-blue-700
-                        hover:file:bg-blue-100">
+                        file:bg-zinc-50 file:text-zinc-800
+                        hover:file:bg-zinc-100">
             </div>
 
             <div class="pt-4">
                 <button type="submit"
-                    class="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700 transition">Simpan</button>
+                    class="bg-zinc-800 text-white px-6 py-2 rounded hover:bg-zinc-900 transition">Simpan</button>
                 <a href="{{ route('admin.item.index') }}" class="ml-4 text-gray-600 hover:underline">Kembali</a>
             </div>
         </form>

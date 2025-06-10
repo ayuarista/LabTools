@@ -33,7 +33,7 @@
             </div>
         </div>
 
-        <div class="bg-yellow-100 text-yellow-800 text-sm p-3 rounded flex items-start gap-2">
+        <div class="bg-sky-100 text-sky-800 text-sm p-3 rounded flex items-start gap-2">
             <i class="fas fa-info-circle mt-0.5"></i>
             <p>Kamu bisa memilih 1–2 jenis barang, dan setiap barang boleh dipinjam 1–2 pcs.</p>
         </div>

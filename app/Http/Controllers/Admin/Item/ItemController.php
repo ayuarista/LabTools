@@ -116,4 +116,10 @@ class ItemController extends Controller
 
         return redirect()->route('admin.item.index');
     }
+
+    public function show(Item $item)
+    {
+        return view('admin.item.show', compact('item'));
+    }
+
 }

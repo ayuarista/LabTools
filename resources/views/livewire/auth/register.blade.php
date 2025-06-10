@@ -25,13 +25,11 @@ new #[Layout('components.layouts.auth')] class extends Component {
             'password' => ['required', 'string', 'confirmed', Rules\Password::defaults()],
         ]);
 
-        $validated['password'] = Hash::make($validated['password']);
+        $user = User::query()->create($validated);
 
-        event(new Registered(($user = User::create($validated))));
+        session(['user_id_pending_profile' => $user->id]);
 
-        Auth::login($user);
-
-        $this->redirectIntended(route('dashboard', absolute: false), navigate: true);
+        $this->redirectIntended(route('profile.create'));
     }
 }; ?>
 
@@ -41,7 +39,7 @@ new #[Layout('components.layouts.auth')] class extends Component {
     <!-- Session Status -->
     <x-auth-session-status class="text-center" :status="session('status')" />
 
-    <form wire:submit="register" class="flex flex-col gap-6">
+    <form wire:submit="register" class="flex flex-col gap-6" method="POST">
         <!-- Name -->
         <flux:input
             wire:model="name"

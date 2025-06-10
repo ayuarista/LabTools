@@ -17,6 +17,7 @@ class ReturnItemController extends Controller
             ->whereDoesntHave('returnItems')
             ->latest()
             ->get();
+<<<<<<< HEAD
 
         $returnedLoans = Loan::with(['user', 'loanItems.item', 'returnItems'])
             ->whereIn('status', ['returned', 'late'])
@@ -25,6 +26,10 @@ class ReturnItemController extends Controller
             ->get();
 
         return view('admin.return_item.index', compact('waitingLoans', 'returnedLoans'));
+=======
+
+        return view('admin.return_item.index', compact('waitingLoans'));
+>>>>>>> 849fdb129e32cd7abf224ac2c7e71678ceb5156a
     }
 
     public function create($loanId)
@@ -36,10 +41,17 @@ class ReturnItemController extends Controller
     public function store(Request $request, $loanId)
     {
         $loan = Loan::with('loanItems')->findOrFail($loanId);
+<<<<<<< HEAD
         $returnDate = \Carbon\Carbon::parse($request->return_date);
         $expectedReturnDate = \Carbon\Carbon::parse($loan->loan_date);
 
         $isLate = $returnDate->gt($expectedReturnDate);
+=======
+        $returnDate = \Carbon\Carbon::parse($request->return_date); // dari form input
+        $expectedReturnDate = \Carbon\Carbon::parse($loan->loan_date); // batas waktu pengembalian
+
+        $isLate = $returnDate->gt($expectedReturnDate); // cek keterlambatan
+>>>>>>> 849fdb129e32cd7abf224ac2c7e71678ceb5156a
 
         foreach ($request->items as $itemId => $data) {
             $loanItem = $loan->loanItems->firstWhere('item_id', $itemId);
@@ -61,6 +73,10 @@ class ReturnItemController extends Controller
             }
         }
 
+<<<<<<< HEAD
+=======
+        // Jika telat, ubah status jadi "late", kalau tidak, "returned"
+>>>>>>> 849fdb129e32cd7abf224ac2c7e71678ceb5156a
         $loan->update([
             'status' => $isLate ? 'late' : 'returned',
         ]);

@@ -1,17 +1,20 @@
 <?php
 
+use App\Http\Controllers\Admin\Loan\LoanController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\Auth\AdminAuthController;
 use App\Http\Controllers\Admin\Item\ItemController;
-use App\Http\Controllers\Admin\Loan\LoanController;
 use App\Http\Controllers\Admin\Management\StudentController;
 use App\Http\Controllers\Admin\ReturnItem\ReturnItemController;
 use App\Http\Controllers\Admin\ReturnItem\HistoryReturnController;
 
 Route::prefix('admin')->name('admin.')->group(function () {
-    Route::get('/login', [AdminAuthController::class, 'index'])->name('login');
-    Route::post('/login', [AdminAuthController::class, 'login']);
+
+    Route::middleware(['guest:admin'])->group(function () {
+        Route::get('/login', [AdminAuthController::class, 'index'])->name('login');
+        Route::post('/login', [AdminAuthController::class, 'login']);
+    });
 
     Route::middleware('auth:admin')->group(function () {
         Route::get('/dashboard', [AdminController::class, 'index'])->name('dashboard');

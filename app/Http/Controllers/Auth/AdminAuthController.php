@@ -28,9 +28,12 @@ class AdminAuthController extends Controller
         ]);
 
         if (Auth::guard('admin')->attempt($credentials)) {
+            flash()->success('Login berhasil');
             return redirect()->route('admin.dashboard');
         }
 
+
+        flash()->error('Login gagal');
         return back()->withErrors(['email' => 'Email atau password salah!']);
     }
 
