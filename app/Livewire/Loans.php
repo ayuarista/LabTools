@@ -13,8 +13,12 @@ class Loans extends Component
     {
         $this->updateReturnedStatus();
 
-        $this->loans = Loan::with(['user', 'loanItems.item'])->latest()->get();
+        $this->loans = Loan::with([
+            'user.profile',       // ⬅️ relasi profile
+            'loanItems.item',
+        ])->latest()->get();
     }
+
 
     public function approve($loanId)
     {

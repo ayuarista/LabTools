@@ -17,10 +17,11 @@ class StudentController extends Controller
             $query->where('name', 'like', "%{$search}%");
         }
 
-        $students = User::withCount('loans')->latest()->paginate(10); 
+        $students = User::with(['profile'])->withCount('loans')->latest()->paginate(10);
 
         return view('admin.student.index', compact('students', 'search'));
     }
+
 
     public function show(User $student)
     {
