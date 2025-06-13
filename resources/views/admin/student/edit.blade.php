@@ -8,14 +8,24 @@
             @csrf
             @method('PUT')
 
-            <div class="space-y-2">
-                <label for="name" class="block text-sm font-medium text-zinc-800 dark:text-white">Nama</label>
-                <flux:input id="name" name="name" type="text" :value="old('name', $student->name)" placeholder="Nama siswa" />
-            </div>
+            <div class="grid grid-cols-2 gap-4">
+                <div class="space-y-2">
+                    <label for="name" class="block text-sm font-medium text-zinc-800 dark:text-white">Nama</label>
+                    <flux:input id="name" name="name" type="text" :value="old('name', $student->name)" placeholder="Nama siswa" />
+                </div>
+                <div class="space-y-2">
+                    <label for="kelas" class="block text-sm font-medium text-zinc-800 dark:text-white">Kelas</label>
+                    <flux:input id="kelas" name="kelas" type="text" :value="old('kelas', $student->profile->kelas)" placeholder="Contoh : XI RPL 1" />
+                </div>
+                <div class="space-y-2">
+                    <label for="jurusan" class="block text-sm font-medium text-zinc-800 dark:text-white">Jurusan</label>
+                    <flux:input id="jurusan" name="jurusan" type="text" :value="old('jurusan', $student->profile->jurusan)" placeholder="Jurusan" />
+                </div>
 
-            <div class="space-y-2">
-                <label for="email" class="block text-sm font-medium text-zinc-800 dark:text-white">Email</label>
-                <flux:input id="email" name="email" type="email" :value="old('email', $student->email)" placeholder="Email siswa" />
+                <div class="space-y-2">
+                    <label for="email" class="block text-sm font-medium text-zinc-800 dark:text-white">Email</label>
+                    <flux:input id="email" name="email" type="email" :value="old('email', $student->email)" placeholder="Email siswa" />
+                </div>
             </div>
 
             <div class="space-y-2">

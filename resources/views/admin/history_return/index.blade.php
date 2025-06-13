@@ -16,6 +16,7 @@
                             <th class="px-4 py-3 text-left font-semibold whitespace-nowrap">NIS</th>
                             <th class="px-4 py-3 text-left font-semibold whitespace-nowrap">Kelas</th>
                             <th class="px-4 py-3 text-left font-semibold whitespace-nowrap">Tanggal Pinjam</th>
+                            <th class="px-4 py-3 text-left font-semibold whitespace-nowrap">Tanggal Kembali</th>
                             <th class="px-4 py-3 text-left font-semibold whitespace-nowrap">Barang</th>
                             <th class="px-4 py-3 text-left font-semibold whitespace-nowrap">Kondisi</th>
                             <th class="px-4 py-3 text-left font-semibold whitespace-nowrap">Denda</th>
@@ -32,6 +33,9 @@
                                     <td class="px-4 py-3 whitespace-nowrap">{{ $loan->user->profile->kelas ?? '-' }}</td>
                                     <td class="px-4 py-3 whitespace-nowrap">
                                         {{ \Carbon\Carbon::parse($loan->loan_date)->translatedFormat('l, j F Y') }}
+                                    </td>
+                                    <td class="px-4 py-3 whitespace-nowrap">
+                                        {{ \Carbon\Carbon::parse($loan->return_at)->translatedFormat('l, j F Y') }}
                                     </td>
                                     <td class="px-4 py-3 whitespace-nowrap">{{ $return->item->name }}</td>
                                     <td class="px-4 py-3 whitespace-nowrap">
